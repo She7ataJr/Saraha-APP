@@ -1,5 +1,5 @@
 import { asyncHandler } from "../../../utils/errorHandling.js"
-import userModel from './../../../../DB/model/user.model.js';
+import userModel from "../../../../DB/model/User.model.js";
 import messageModel from './../../../../DB/model/message.model.js';
 
 // export const getMessageModule=(req,res,next)=>{
@@ -22,4 +22,11 @@ export const getMessages = asyncHandler(async(req,res,next)=>{
     const messages = await messageModel.find({receiverId:_id})
     return res.json({message :"here is your messages",messages})
 
+})
+
+export const deleteMessage =asyncHandler( async (req,res,next)=>{
+    const {id}=req.params
+    const message = await messageModel.deleteOne({_id:id,receiverId:req.user._id})
+    return message?res.status(200).json({ message:"Done"}):
+    next(new Error('in-valid message id or Owner id',{cause:400}))
 })
