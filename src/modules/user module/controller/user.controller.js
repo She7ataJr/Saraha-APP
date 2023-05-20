@@ -1,7 +1,10 @@
 import { asyncHandler } from '../../../utils/errorHandling.js';
-import userModel from '../../../../DB/model/User.model.js';
+import userModel from './../../../DB/model/User.model.js';
 import { compare, hash } from '../../../utils/HashAndCompare.js';
 
+export const profilePic=asyncHandler(async(req,res,next)=>{
+    return res.json({message:"file uploaded successfully",file:req.file})
+})
 
 
 

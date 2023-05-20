@@ -7,5 +7,5 @@ const router = Router()
 
 router.post('/signup',validation(signupSchema),authController.signup)
 router.post('/login',validation(loginSchema),authController.login)
-
+router.get('/confirmEmail/:token',authController.confirmEmail)
 export default router
