@@ -1,9 +1,15 @@
+import userModel from '../../../../DB/model/user.model.js';
 import { asyncHandler } from '../../../utils/errorHandling.js';
-import userModel from './../../../DB/model/User.model.js';
 import { compare, hash } from '../../../utils/HashAndCompare.js';
 
 export const profilePic=asyncHandler(async(req,res,next)=>{
-    return res.json({message:"file uploaded successfully",file:req.file})
+    const {userName}=req.body
+    if(!req.file){
+        return next(new Error('file  is required',{cause:400}))
+    }
+    const user = await userModel.findByIdAndUpdate(req.user._id,{profilePic:req.file.dest},{new:true})
+    return res.json({message:"file uploaded successfully",user,file:req.file}) 
+
 })
 
 

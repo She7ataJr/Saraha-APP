@@ -23,12 +23,13 @@ export const signup = asyncHandler(
     return res.json({ message: "email exist" });
   }
   // const token = generateToken({payload:{email},expiresIn:60*5 , signature:process.env.EMAIL_TOKEN})
-  // const link = `http://localhost:5000/auth/confirmEmail/${token}`
-  // const html = `<a href="${link}">Click me to confirm your email</a>`
-  // const info = await sendEmail({to:email,subject:'Confirm Email' ,html})
-  // if (!info){
-  //   return next(new Error("rejected Email" , {cause:400 }))
-  // }
+  const link = `http://localhost:5000/auth/confirmEmail/${token}`
+  const html = `<a href="${link}">Click me to confirm your email</a>`
+  const info = await sendEmail({to:email,subject:'Confirm Email' ,html})
+  if (!info){
+    return next(new Error("rejected Email" , {cause:400 }))
+  }
+
   const hashPassword = hash({ plainText:password });
 
   const user = await userModel.create({userName,email,password: hashPassword});
@@ -65,5 +66,7 @@ export const confirmEmail = asyncHandler(async(req,res,next)=>{
   const {token}=req.params
   const {email} = verifyToken({token,signature:process.env.EMAIL_TOKEN})
   const user = await userModel.updateOne({email},{confirmEmail:true})
-  return user.modifiedCount? res.status(200).redirect('http://localhost:5000/auth/login'):res.status(404).send('not registered account')
+  return user.modifiedCount? res.status(200).redirect('http://localhost:5000/auth/login')
+                            :res.status(404).send('not registered account')
 })
+

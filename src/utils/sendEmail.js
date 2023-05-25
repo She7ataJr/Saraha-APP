@@ -1,7 +1,7 @@
 
 import nodemailer from "nodemailer"
 
-async function sendEmail() {
+async function sendEmail({to=[],subject,cc,bcc,text,attachments=[]}={}) {
 
   let transporter = nodemailer.createTransport({
     service:'gmail',
@@ -13,7 +13,7 @@ async function sendEmail() {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: `"muhammad shehata for testing" <${process.env.EMAIL}>`, // sender address
+    from: `"muhammad Shehata for testing" <${process.env.EMAIL}>`, // sender address
     to: "She7ataJr@gmail.com", // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
@@ -21,7 +21,7 @@ async function sendEmail() {
   });
 
   console.log(info);
-
+  return info.rejected.length?false:true
 } 
 
 export default sendEmail
