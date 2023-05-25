@@ -3,8 +3,8 @@ import userRouter from './modules/user module/user.router.js'
 import messageRouter from './modules/message module/message.router.js'
 import connectDB from './../DB/connectDB.js';
 import { globalErrorHandling } from './utils/errorHandling.js';
+import path from 'path'
 import fileURLToPath from 'url'
-
 
 const __direname = path.direname(fileURLToPath(import.meta.url))
 
